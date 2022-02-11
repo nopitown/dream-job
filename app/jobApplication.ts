@@ -20,9 +20,9 @@ export async function createJobApplication(jobApplication: JobApplication) {
         data: {
           companyName: jobApplication.companyName,
           applicationLink: jobApplication.applicationLink,
-          companyReviewsLinks: jobApplication.companyReviewsLink, 
+          companyReviewsLink: jobApplication.companyReviewsLink, 
           userId: 1,
-          status: "not started",
+          status: "NOT_STARTED",
           notes: ""
         },
       })

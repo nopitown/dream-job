@@ -18,13 +18,22 @@ model User {
 }
 
 model JobApplication {
-  id                  Int      @id @default(autoincrement())
-  createdAt           DateTime @default(now())
-  companyName         String
-  applicationLink     String
-  companyReviewsLinks String
-  status              String
-  notes               String
-  user                User     @relation(fields: [userId], references: [id])
-  userId              Int
+  id                 Int      @id @default(autoincrement())
+  createdAt          DateTime @default(now())
+  companyName        String
+  applicationLink    String
+  companyReviewsLink String
+  status             Status
+  notes              String
+  user               User     @relation(fields: [userId], references: [id])
+  userId             Int
+}
+
+enum Status {
+  NOT_STARTED
+  APPLICATION_SENT
+  PHONE_CALL_SCHEDULED
+  CODE_INTERVIEW_SCHEDULED
+  REJECTED
+  ACCEPTED
 }
