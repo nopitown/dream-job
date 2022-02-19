@@ -15,6 +15,10 @@ if (!process.env.BASE_URL) {
   throw new Error("BASE_URL is required");
 }
 
+if (!process.env.COOKIES_SECRET) {
+  throw new Error("COOKIES SECRETS is required");
+}
+
 const BASE_URL = process.env.BASE_URL;
 
 export const sessionStorage = createCookieSessionStorage({
@@ -23,7 +27,7 @@ export const sessionStorage = createCookieSessionStorage({
     httpOnly: true,
     path: "/",
     sameSite: "lax",
-    secrets: ["s3cret"], // This should be an env variable
+    secrets: [process.env.COOKIES_SECRET],
     secure: process.env.NODE_ENV === "production",
   },
 });
