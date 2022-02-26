@@ -1,4 +1,4 @@
-import { useLoaderData, LoaderFunction, useCatch } from "remix";
+import { useLoaderData, LoaderFunction, Link } from "remix";
 import { geUserFromSession } from "~/auth.server";
 import { getJobApplications } from "~/job-application";
 
@@ -22,14 +22,18 @@ export default function Index() {
   const jobApplications: JobApplication[] = useLoaderData();
 
   return (
-    <ul>
-      {jobApplications.map(({ id, companyName, createdAt }) => (
-        <li key={id}>
-          <p>
-            {createdAt}, {companyName}
-          </p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {jobApplications.map(({ id, companyName, createdAt }) => (
+          <li key={id}>
+            <p>
+              {createdAt}, {companyName}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      <Link to="/job-applications/new">Add new job application</Link>
+    </>
   );
 }

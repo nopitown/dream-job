@@ -1,13 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { sessionStorage } from "./auth.server";
+import { JobApplication } from "types/job-application";
+import { User } from "types/user";
 
 const prisma = new PrismaClient();
 
-type JobApplication = {
-  id?: number;
-  companyName: string;
-  applicationLink: string;
-  companyReviewsLink: string;
+type CreateJobApplication = {
+  jobApplication: JobApplication;
+  user: User;
 };
 
 export async function getJobApplications(userId: number) {
@@ -24,13 +23,13 @@ export async function getJobApplications(userId: number) {
   return allJobApplications;
 }
 
-export async function createJobApplication(jobApplication: JobApplication) {
+export async function createJobApplication({ jobApplication, user }: CreateJobApplication) {
   const jobApplicationResult = await prisma.jobApplication.create({
     data: {
       companyName: jobApplication.companyName,
       applicationLink: jobApplication.applicationLink,
       companyReviewsLink: jobApplication.companyReviewsLink,
-      userId: 1,
+      userId: user.id,
       status: "NOT_STARTED",
       notes: "",
     },

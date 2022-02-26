@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import { createCookieSessionStorage } from "remix";
 import { Authenticator } from "remix-auth";
 import type { GoogleExtraParams, GoogleProfile } from "remix-auth-google";
@@ -53,7 +54,7 @@ auth.use(
   )
 );
 
-export const geUserFromSession = async (request: Request) => {
+export const geUserFromSession = async (request: Request): Promise<User> => {
   const session = await sessionStorage.getSession(request.headers.get("Cookie"));
   const {
     user: { profile },
@@ -61,5 +62,9 @@ export const geUserFromSession = async (request: Request) => {
   const userEmail = profile.emails[0].value;
   const user = await findUserByEmail(userEmail);
 
-  return user;
+  if (user !== null) {
+    return user;
+  }
+
+  return { id: 1, name: "", email: "" }; // throw error
 };
