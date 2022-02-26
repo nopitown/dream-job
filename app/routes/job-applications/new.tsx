@@ -1,17 +1,22 @@
-import { Form, redirect } from "remix";
+import { Form, redirect, ActionFunction } from "remix";
+import { geUserFromSession } from "~/auth.server";
 import { createJobApplication } from "~/job-application";
 
-export const action = async ({ request }) => {
+export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
+  const user = await geUserFromSession(request);
 
-  const companyName: string = formData.get("company_name");
-  const applicationLink: string = formData.get("application_link");
-  const companyReviewsLink: string = formData.get("company_reviews_link");
+  const companyName = formData.get("company_name") as string;
+  const applicationLink = formData.get("application_link") as string;
+  const companyReviewsLink = formData.get("company_reviews_link") as string;
 
   await createJobApplication({
-    companyName,
-    applicationLink,
-    companyReviewsLink,
+    jobApplication: {
+      companyName,
+      applicationLink,
+      companyReviewsLink,
+    },
+    user,
   });
 
   return redirect("/job-applications");
@@ -32,12 +37,11 @@ export default function NewJobApplication() {
       </p>
       <p>
         <label>
-          Company reviews link:{" "}
-          <input type="text" name="company_reviews_link" />
+          Company reviews link: <input type="text" name="company_reviews_link" />
         </label>
       </p>
       <p>
-        <button type="submit">Add job application</button>
+        <button type="submit">Save</button>
       </p>
     </Form>
   );

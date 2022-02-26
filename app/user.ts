@@ -1,12 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+import { NewUser, User } from "types/user";
 
 const prisma = new PrismaClient();
-
-type User = {
-  id?: number;
-  email: string;
-  name: string;
-};
 
 export const findUserByEmail = async (email: string) => {
   const user = await prisma.user.findUnique({
@@ -19,7 +14,7 @@ export const findUserByEmail = async (email: string) => {
   return user;
 };
 
-export const findOrCreateUser = async (user: User) => {
+export const findOrCreateUser = async (user: NewUser) => {
   const newOrFoundUser = await prisma.user.upsert({
     where: {
       email: user.email,
