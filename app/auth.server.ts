@@ -2,6 +2,7 @@ import { createCookieSessionStorage } from "remix";
 import { Authenticator } from "remix-auth";
 import type { GoogleExtraParams, GoogleProfile } from "remix-auth-google";
 import { GoogleStrategy } from "remix-auth-google";
+import { findOrCreateUser, findUserByEmail } from "~/user";
 
 if (!process.env.GOOGLE_CLIENT_ID) {
   throw new Error("GOOGLE_CLIENT_ID is required");
@@ -46,7 +47,19 @@ auth.use(
       callbackURL: new URL("/auth/google/callback", BASE_URL).toString(),
     },
     async ({ profile, accessToken, extraParams }) => {
+      await findOrCreateUser({ email: profile.emails[0].value, name: profile.displayName });
       return { profile, accessToken, extraParams };
     }
   )
 );
+
+export const geUserFromSession = async (request: Request) => {
+  const session = await sessionStorage.getSession(request.headers.get("Cookie"));
+  const {
+    user: { profile },
+  } = session.data;
+  const userEmail = profile.emails[0].value;
+  const user = await findUserByEmail(userEmail);
+
+  return user;
+};

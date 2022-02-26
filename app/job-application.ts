@@ -1,33 +1,42 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
+import { sessionStorage } from "./auth.server";
 
 const prisma = new PrismaClient();
 
 type JobApplication = {
-    id?: number,
-    companyName: string,
-    applicationLink: string,
-    companyReviewsLink: string,
-  }
+  id?: number;
+  companyName: string;
+  applicationLink: string;
+  companyReviewsLink: string;
+};
 
-export async function getJobApplications(){
-    const allJobApplications = await prisma.jobApplication.findMany();
-    prisma.$disconnect();
-    return allJobApplications;
+export async function getJobApplications(userId: number) {
+  const allJobApplications = await prisma.jobApplication.findMany({
+    where: {
+      user: {
+        id: userId,
+      },
+    },
+  });
+
+  prisma.$disconnect();
+
+  return allJobApplications;
 }
 
 export async function createJobApplication(jobApplication: JobApplication) {
-    const jobApplicationResult = await prisma.jobApplication.create({
-        data: {
-          companyName: jobApplication.companyName,
-          applicationLink: jobApplication.applicationLink,
-          companyReviewsLink: jobApplication.companyReviewsLink, 
-          userId: 1,
-          status: "NOT_STARTED",
-          notes: ""
-        },
-      })
+  const jobApplicationResult = await prisma.jobApplication.create({
+    data: {
+      companyName: jobApplication.companyName,
+      applicationLink: jobApplication.applicationLink,
+      companyReviewsLink: jobApplication.companyReviewsLink,
+      userId: 1,
+      status: "NOT_STARTED",
+      notes: "",
+    },
+  });
 
-      prisma.$disconnect();
+  prisma.$disconnect();
 
-      return  jobApplicationResult;
-  }
+  return jobApplicationResult;
+}

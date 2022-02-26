@@ -1,4 +1,5 @@
-import { useLoaderData } from "remix";
+import { useLoaderData, LoaderFunction, useCatch } from "remix";
+import { geUserFromSession } from "~/auth.server";
 import { getJobApplications } from "~/job-application";
 
 type JobApplication = {
@@ -7,8 +8,14 @@ type JobApplication = {
   createdAt: string;
 };
 
-export const loader = async () => {
-  return getJobApplications();
+export const loader: LoaderFunction = async ({ request }) => {
+  const user = await geUserFromSession(request);
+
+  if (user !== null) {
+    return getJobApplications(user.id);
+  }
+
+  return [];
 };
 
 export default function Index() {
