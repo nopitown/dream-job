@@ -24,7 +24,7 @@ export default function JobApplicationsScreen() {
   return (
     <>
       <header>
-        <h1>Job Applications</h1>
+        <h1 className="text-3xl font-bold underline">Job Applications</h1>
         <Form method="post">
           <button>Log Out</button>
         </Form>
