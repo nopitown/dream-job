@@ -23,16 +23,15 @@ export default function JobApplicationsScreen() {
 
   return (
     <>
-      <header>
-        <h1 className="text-3xl font-bold underline">Job Applications</h1>
+      <header className="flex justify-between p-4">
+        <h1 className="font-bold">Dream Job</h1>
         <Form method="post">
-          <button>Log Out</button>
+          <button className="link">Log Out</button>
         </Form>
       </header>
-      <main>
+      <main className="p-4">
         <Outlet />
       </main>
-      <footer>Built by @nopitown</footer>
     </>
   );
 }
