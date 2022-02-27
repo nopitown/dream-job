@@ -20,10 +20,13 @@ model User {
 model JobApplication {
   id                 Int      @id @default(autoincrement())
   createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now())
+  applicationDate    DateTime @default(now())
   companyName        String
-  applicationLink    String
+  companyWebsite     String
   companyReviewsLink String
-  status             Status
+  jobOfferLink       String
+  status             Status   @default(NOT_STARTED)
   notes              String
   user               User     @relation(fields: [userId], references: [id])
   userId             Int

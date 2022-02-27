@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { JobApplication } from "types/job-application";
+import { NewJobApplication } from "types/job-application";
 import { User } from "types/user";
 
 const prisma = new PrismaClient();
 
 type CreateJobApplication = {
-  jobApplication: JobApplication;
+  jobApplication: NewJobApplication;
   user: User;
 };
 
@@ -26,12 +26,13 @@ export async function getJobApplications(userId: number) {
 export async function createJobApplication({ jobApplication, user }: CreateJobApplication) {
   const jobApplicationResult = await prisma.jobApplication.create({
     data: {
+      applicationDate: jobApplication.applicationDate,
       companyName: jobApplication.companyName,
-      applicationLink: jobApplication.applicationLink,
       companyReviewsLink: jobApplication.companyReviewsLink,
+      companyWebsite: jobApplication.companyWebsite,
+      jobOfferLink: jobApplication.jobOfferLink,
+      notes: jobApplication.notes,
       userId: user.id,
-      status: "NOT_STARTED",
-      notes: "",
     },
   });
 

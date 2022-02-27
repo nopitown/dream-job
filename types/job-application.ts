@@ -1,6 +1,11 @@
 export type JobApplication = {
-  id?: number;
+  id: number;
+  applicationDate: string;
   companyName: string;
-  applicationLink: string;
   companyReviewsLink: string;
+  companyWebsite: string;
+  jobOfferLink: string;
+  notes: string;
 };
+
+export type NewJobApplication = Omit<JobApplication, "id">;
