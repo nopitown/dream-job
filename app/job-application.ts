@@ -1,13 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { NewJobApplication } from "types/job-application";
-import { User } from "types/user";
+import { CreateJobApplication, UpdateJobApplication } from "types/job-application";
 
 const prisma = new PrismaClient();
-
-type CreateJobApplication = {
-  jobApplication: NewJobApplication;
-  user: User;
-};
 
 export async function getJobApplications(userId: number) {
   const allJobApplications = await prisma.jobApplication.findMany({
@@ -23,7 +17,19 @@ export async function getJobApplications(userId: number) {
   return allJobApplications;
 }
 
-export async function createJobApplication({ jobApplication, user }: CreateJobApplication) {
+export async function getJobApplication(id: number) {
+  const allJobApplications = await prisma.jobApplication.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  prisma.$disconnect();
+
+  return allJobApplications;
+}
+
+export const createJobApplication: CreateJobApplication = async (jobApplication, user) => {
   const jobApplicationResult = await prisma.jobApplication.create({
     data: {
       applicationDate: jobApplication.applicationDate,
@@ -39,4 +45,24 @@ export async function createJobApplication({ jobApplication, user }: CreateJobAp
   prisma.$disconnect();
 
   return jobApplicationResult;
-}
+};
+
+export const editJobApplication: UpdateJobApplication = async (jobApplication) => {
+  const jobApplicationResult = await prisma.jobApplication.update({
+    data: {
+      applicationDate: jobApplication.applicationDate,
+      companyName: jobApplication.companyName,
+      companyReviewsLink: jobApplication.companyReviewsLink,
+      companyWebsite: jobApplication.companyWebsite,
+      jobOfferLink: jobApplication.jobOfferLink,
+      notes: jobApplication.notes,
+    },
+    where: {
+      id: jobApplication.id,
+    },
+  });
+
+  prisma.$disconnect();
+
+  return jobApplicationResult;
+};

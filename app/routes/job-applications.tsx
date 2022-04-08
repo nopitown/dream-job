@@ -1,6 +1,6 @@
 import { Outlet } from "remix";
-import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, useLoaderData } from "remix";
+import { Form, json, useLoaderData, ActionFunction, LoaderFunction } from "remix";
+import { Box, Button, Heading, HStack, Text } from "@chakra-ui/react";
 import type { GoogleProfile } from "remix-auth-google";
 import { auth } from "~/auth.server";
 
@@ -19,19 +19,23 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function JobApplicationsScreen() {
-  useLoaderData<LoaderData>();
-
   return (
     <>
-      <header className="flex justify-between p-4">
-        <h1 className="font-bold">Dream Job</h1>
-        <Form method="post">
-          <button className="link">Log Out</button>
-        </Form>
-      </header>
-      <main className="p-4">
+      <Box as="header" px={4} pt={4} pb={10}>
+        <HStack justifyContent="space-between">
+          <Heading as="h1" size="2xl" color="gray.400">
+            Dream Job 🔎
+          </Heading>
+          <Form method="post">
+            <Button colorScheme="blackAlpha" type="submit">
+              Log Out
+            </Button>
+          </Form>
+        </HStack>
+      </Box>
+      <Box p={4}>
         <Outlet />
-      </main>
+      </Box>
     </>
   );
 }

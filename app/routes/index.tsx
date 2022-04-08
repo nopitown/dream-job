@@ -1,3 +1,13 @@
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Button,
+  Center,
+  CloseButton,
+  Heading,
+  VStack,
+} from "@chakra-ui/react";
 import type { LoaderFunction } from "remix";
 import { Form, json, useLoaderData } from "remix";
 import { auth, sessionStorage } from "~/auth.server";
@@ -18,8 +28,23 @@ export default function Screen() {
 
   return (
     <Form method="post" action="/auth/google" className="flex items-center justify-center h-screen">
-      {error ? <div>{error.message}</div> : null}
-      <button className="btn">Sign In with Google</button>
+      {error ? (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertDescription>{error.message}</AlertDescription>
+          <CloseButton position="absolute" right="8px" top="8px" />
+        </Alert>
+      ) : null}
+      <Center minH="100vh" color="white">
+        <VStack spacing="20px">
+          <Heading as="h1" size="2xl" color="gray.400">
+            Dream Job 🔎
+          </Heading>
+          <Button colorScheme="blue" type="submit">
+            Sign In with Google
+          </Button>
+        </VStack>
+      </Center>
     </Form>
   );
 }

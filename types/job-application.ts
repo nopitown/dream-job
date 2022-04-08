@@ -1,12 +1,17 @@
-export type JobApplication = {
-  id: number;
-  applicationDate: string;
-  companyName: string;
-  companyReviewsLink: string;
-  companyWebsite: string;
-  jobOfferLink: string;
-  notes: string;
-  status: string;
-};
+import { User } from "types/user";
+import { JobApplication } from "@prisma/client";
 
-export type NewJobApplication = Omit<JobApplication, "id">;
+export type UpdatedJobApplication = Omit<
+  JobApplication,
+  "createdAt" | "updatedAt" | "userId" | "status"
+>;
+export type NewJobApplication = Omit<UpdatedJobApplication, "id">;
+
+export type CreateJobApplication = (
+  jobApplication: NewJobApplication,
+  user: User
+) => Promise<JobApplication>;
+
+export type UpdateJobApplication = (
+  jobApplication: UpdatedJobApplication
+) => Promise<JobApplication>;
