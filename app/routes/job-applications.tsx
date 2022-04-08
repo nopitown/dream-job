@@ -23,7 +23,7 @@ export default function JobApplicationsScreen() {
     <>
       <Box as="header" px={4} pt={4} pb={10}>
         <HStack justifyContent="space-between">
-          <Heading as="h1" size="2xl" color="gray.400">
+          <Heading as="h1" size="lg" color="gray.400">
             Dream Job 🔎
           </Heading>
           <Form method="post">
