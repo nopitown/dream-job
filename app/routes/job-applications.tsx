@@ -3,6 +3,7 @@ import { Form, json, useLoaderData, ActionFunction, LoaderFunction } from "remix
 import { Box, Button, Heading, HStack, Text } from "@chakra-ui/react";
 import type { GoogleProfile } from "remix-auth-google";
 import { auth } from "~/auth.server";
+import { AddIcon } from "@chakra-ui/icons";
 
 type LoaderData = { profile: GoogleProfile };
 

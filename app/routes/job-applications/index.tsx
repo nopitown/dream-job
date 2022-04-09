@@ -14,7 +14,7 @@ import {
 import { useLoaderData, LoaderFunction, Link as RemixLink } from "remix";
 import { geUserFromSession } from "~/auth.server";
 import { getJobApplications } from "~/job-application";
-import { EditIcon } from "@chakra-ui/icons";
+import { AddIcon, EditIcon, SearchIcon } from "@chakra-ui/icons";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await geUserFromSession(request);
@@ -34,7 +34,12 @@ export default function Index() {
       <header>
         <HStack justifyContent="flex-end">
           <Box p={4}>
-            <Button as={RemixLink} to="/job-applications/new" colorScheme="green">
+            <Button
+              as={RemixLink}
+              to="/job-applications/new"
+              colorScheme="green"
+              leftIcon={<AddIcon />}
+            >
               Add new job application
             </Button>
           </Box>
@@ -44,13 +49,13 @@ export default function Index() {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th className="px-4 text-right rounded-tl-lg">Application date</Th>
-              <Th className="px-4">Company's name</Th>
-              <Th className="px-4">Company's website</Th>
-              <Th className="px-4">Company's reviews</Th>
-              <Th className="px-4">Job's offer link</Th>
-              <Th className="px-4">Status</Th>
-              <Th className="px-4">Notes</Th>
+              <Th>Application date</Th>
+              <Th>Company's name</Th>
+              <Th>Company's website</Th>
+              <Th>Company's reviews</Th>
+              <Th>Job's offer link</Th>
+              <Th>Status</Th>
+              <Th>Notes</Th>
               <Th className="px-4 rounded-tr-lg">Actions</Th>
             </Tr>
           </Thead>
@@ -66,38 +71,46 @@ export default function Index() {
                 status,
                 notes,
               }) => (
-                <Tr className="border border-gray-100">
-                  <Td className="px-4 text-right">
-                    {Intl.DateTimeFormat("en-US").format(new Date(applicationDate))}
-                  </Td>
-                  <Td className="px-4 text-center">{companyName}</Td>
-                  <Td className="px-4 text-center">
+                <Tr>
+                  <Td>{Intl.DateTimeFormat("en-US").format(new Date(applicationDate))}</Td>
+                  <Td>{companyName}</Td>
+                  <Td>
                     <a href={companyWebsite} className="link">
                       {companyWebsite}
                     </a>
                   </Td>
-                  <Td className="px-4 text-center">
+                  <Td>
                     <a href={companyReviewsLink} className="link">
                       {companyReviewsLink}
                     </a>
                   </Td>
-                  <Td className="px-4 text-center">
+                  <Td>
                     <a href={jobOfferLink} className="link">
                       {jobOfferLink}
                     </a>
                   </Td>
-                  <Td className="px-4 text-center">{status}</Td>
-                  <Td className="px-4">{notes}</Td>
-                  <Td className="px-4">
-                    <Button
-                      as={RemixLink}
-                      to={`/job-applications/edit/${id}`}
-                      leftIcon={<EditIcon />}
-                      colorScheme="pink"
-                      variant="solid"
-                    >
-                      Edit
-                    </Button>
+                  <Td>{status}</Td>
+                  <Td>{notes}</Td>
+                  <Td>
+                    <HStack spacing={4}>
+                      <Button
+                        as={RemixLink}
+                        to={`/job-applications/${id}`}
+                        leftIcon={<SearchIcon />}
+                        colorScheme="twitter"
+                        variant="solid"
+                      >
+                        View
+                      </Button>
+                      <Button
+                        as={RemixLink}
+                        to={`/job-applications/${id}/edit`}
+                        leftIcon={<EditIcon />}
+                        variant="solid"
+                      >
+                        Edit
+                      </Button>
+                    </HStack>
                   </Td>
                 </Tr>
               )
