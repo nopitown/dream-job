@@ -2,7 +2,7 @@ import { JobApplication } from "@prisma/client";
 import { LoaderFunction } from "@remix-run/node";
 import { redirect, ActionFunction, json, useLoaderData } from "remix";
 import { geUserFromSession } from "~/auth.server";
-import JobApplicationForm from "~/components/jobApplicationForm";
+import JobApplicationForm from "~/components/job-application-form";
 import { editJobApplication, getJobApplication } from "~/job-application";
 
 type LoaderData = {

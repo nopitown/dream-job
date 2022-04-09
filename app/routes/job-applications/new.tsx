@@ -1,6 +1,6 @@
 import { redirect, ActionFunction } from "remix";
 import { geUserFromSession } from "~/auth.server";
-import JobApplicationForm from "~/components/jobApplicationForm";
+import JobApplicationForm from "~/components/job-application-form";
 import { createJobApplication } from "~/job-application";
 
 export const action: ActionFunction = async ({ request }) => {
